@@ -1,0 +1,66 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding: 15px;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+.feat-area {
+    padding-top: 15px;
+}
+
+.feat-block {
+    color: black;
+    margin-bottom: 5px;
+}
+
+.feat-block:hover {
+    box-shadow: 10px 5px 5px #7a7a7a;
+    border: 1px solid #7a7a7a;
+}
+
+.feat-tree-area {
+}
+
+.feat-tree-block {
+    color: black;
+    margin-bottom: 5px;
+    width: 25%;
+}
+
+.feat-tree-block:hover {
+    box-shadow: 10px 5px 5px #7a7a7a;
+    border: 1px solid #7a7a7a;
+}
+
+.hidden {
+    display: none;
+}
+
+.link-img {
+    opacity: 0.6;
+    float: right;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    .feat-block {
+        border: 1px solid #7a7a7a;
+    }
+
+    .feat-tree-block {
+        width: auto;
+        border: 1px solid #7a7a7a;
+    }
+}

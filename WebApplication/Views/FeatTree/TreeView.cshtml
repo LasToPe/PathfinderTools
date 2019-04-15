@@ -1,0 +1,48 @@
+﻿@model WebApplication.Models.FeatTreeModel
+@{ 
+}
+<script type="text/javascript">
+    let children = @Json.Serialize(Model.Children);;
+
+    function openSubTree(name, level) {
+        let selector;
+        if (typeof level != 'undefined') {
+            selector = ".feat-tree-block." + level;
+            level++;
+        } else {
+            selector = ".feat-tree-block";
+            level = 1;
+        }
+
+        console.log(selector);
+
+        $(selector).addClass('hidden');
+        let chosen = document.getElementById(name);
+        chosen.classList.remove('hidden');
+
+        let container = chosen.parentElement;
+
+        $.ajax({
+            url: "/FeatTree/SetName",
+            data: { divId: name },
+            succes: createElements(container, level)
+        });
+    }
+
+    function createElements(container, level) {
+        console.log(container, level);
+
+        console.log(children);
+        $(container).load("/FeatTree/Tree");
+    }
+</script>
+
+@foreach (var node in Model.RootNodes)
+{
+    <div class="row feat-tree-area">
+        <div id="@node.Value.Name" class="col-md-12 feat-tree-block" onclick="openSubTree('@node.Value.Name')">
+            <span><strong>@node.Value.Name</strong></span>
+            <span class="link-img"><a href="@node.Value.Link" target="_blank"><img src="~/images/link.png" /></a></span>
+        </div>
+    </div>
+}

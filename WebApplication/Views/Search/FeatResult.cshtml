@@ -1,0 +1,21 @@
+﻿@model WebApplication.Models.FeatResultModel
+
+@foreach (var feat in Model.Feats)
+{
+    <a href="@feat.Link" target="_blank">
+        <div class="col-md-12 feat-block">
+            <strong>Feat: </strong> @feat.Name <br />
+            <strong>Prerequisites: </strong>
+            @foreach (var p in feat.Prerequisites)
+            {
+                @if (p != feat.Prerequisites.Last())
+                {
+                    @p.ToString();<label>, </label>
+                    continue;
+                }
+                @p.ToString();
+            }<br />
+            <strong>Description: </strong> @feat.Description
+        </div>
+    </a>
+}

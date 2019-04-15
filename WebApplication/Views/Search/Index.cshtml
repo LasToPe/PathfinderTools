@@ -1,0 +1,23 @@
+﻿@using DataTypes
+@model WebApplication.Models.SearchModel
+@{
+    ViewData["Title"] = "Feat Search";
+}
+
+<div class="body-content">
+    <div class="row">
+        <div class="form-inline">
+            @using (Html.BeginForm("Search", "Search", FormMethod.Get))
+            {
+                @Html.DropDownListFor(sm => Model.List, new SelectList(Enum.GetValues(typeof(FeatType))), "All", new { @class = "form-control" })
+                @Html.TextBoxFor(sm => Model.Query, new { @class = "form-control" })
+                <input class="btn btn-default" type="submit" value="Search" />
+            }
+        </div> 
+    </div>
+    <div class="row">
+        <div class="col-md-12 feat-area">
+            @{ await Html.RenderPartialAsync("FeatResult", Model.ResultModel); }
+        </div>
+    </div>
+</div>

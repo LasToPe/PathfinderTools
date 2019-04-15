@@ -1,0 +1,12 @@
+﻿@model WebApplication.Models.FeatTreeModel
+@{ 
+    ViewData["Title"] = "Feat Tree";
+}
+<h2>Combat Feat Tree</h2>
+<div class="body-content">
+    <div class="row">
+        <div class="col-md-12">
+            @{ await Html.RenderPartialAsync("TreeView", Model); }
+        </div>
+    </div>
+</div>
