@@ -11,27 +11,26 @@ namespace WebApplication.Controllers
 {
     public class FeatTreeController : Controller
     {
-        private Tree tree = new Tree(GetData.Scrape.GetSpecificFeats(7));
-        private static FeatTreeModel featTreeModel = null;
-        public IActionResult Index()
+        private static FeatTreeModel featTreeModel;
+
+        public FeatTreeController()
         {
-            if (featTreeModel == null)
-            {
-                featTreeModel = new FeatTreeModel();
-                featTreeModel.RootNodes = tree.GetTreeNodes().Where(n => n.Parents.Count() == 0);
-            }
-            
+            featTreeModel = new FeatTreeModel();
+            featTreeModel.FeatTree = new Tree(GetData.Scrape.GetSpecificFeats(7));
+            featTreeModel.RootFeats = featTreeModel.FeatTree.GetTreeNodes().Where(n => n.Parents.Count() == 0).Select(f => f.Value);
+        }
+
+        public IActionResult Index(string id)
+        {            
             return View(featTreeModel);
         }
 
-        public void SetName(string divId)
+        public JsonResult GetChildren(string parent)
         {
-            featTreeModel.Name = divId;
-        }
+            var parentNode = featTreeModel.FeatTree.GetTreeNodes().Where(n => n.Value.Name == parent).FirstOrDefault();
+            var childFeats = parentNode.Children.Select(f => f.Value);
 
-        public IActionResult Tree(string divId)
-        {
-            return View("Index", featTreeModel);
+            return Json(childFeats);
         }
     }
 }

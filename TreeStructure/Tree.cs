@@ -12,6 +12,8 @@ namespace TreeStructure
     {
         private readonly List<TreeNode<Feat>> nodes = new List<TreeNode<Feat>>();
 
+        public Tree() { }
+
         public Tree(IEnumerable<Feat> feats)
         {
             var tempNodes = new List<TreeNode<Feat>>();
