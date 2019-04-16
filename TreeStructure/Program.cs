@@ -10,7 +10,7 @@ namespace TreeStructure
         {
             var featName = "Dodge";
             var feats = Scrape.GetSpecificFeats(7);
-            var tree = new Tree(feats);
+            var tree = new FeatTree(feats);
 
             var node = tree.GetTreeNodes().Where(n => n.Value.Name == featName).FirstOrDefault();
 

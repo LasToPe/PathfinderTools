@@ -8,13 +8,13 @@ using DataTypes;
 
 namespace TreeStructure
 {
-    public class Tree
+    public class FeatTree
     {
         private readonly List<TreeNode<Feat>> nodes = new List<TreeNode<Feat>>();
 
-        public Tree() { }
+        public FeatTree() { }
 
-        public Tree(IEnumerable<Feat> feats)
+        public FeatTree(IEnumerable<Feat> feats)
         {
             var tempNodes = new List<TreeNode<Feat>>();
             foreach (var feat in feats)
@@ -41,10 +41,22 @@ namespace TreeStructure
 
             foreach (var node in nodes)
             {
+                var removed = new List<TreeNode<Feat>>();
                 foreach(var n in node.Children)
                 {
                     n.TraverseNodes(c => c.RemoveParentFeat(node));
                 }
+            }
+
+            foreach (var node in nodes)
+            {
+                var toRemove = new List<TreeNode<Feat>>();
+                foreach (var n in node.Children)
+                {
+                    if (!n.Parents.Contains(node))
+                        toRemove.Add(n);
+                }
+                node.Children.RemoveAll(n => toRemove.Contains(n));
             }
         }
 
@@ -74,18 +86,14 @@ namespace TreeStructure
 
             Parents.Add(node);
         }
-        public bool RemoveParentFeat(TreeNode<T> node)
+        public void RemoveParentFeat(TreeNode<T> node)
         {
             List<TreeNode<T>> inherited = new List<TreeNode<T>>();
             foreach (var p in Parents)
-            {
                 inherited.AddRange(p.Parents.Where( gp => inherited.All( i => !gp.Parents.Contains(Parents.Where(f => f == i).FirstOrDefault()))));
-            }
 
             if (inherited.Contains(node))
-                return Parents.Remove(node);
-
-            return false;
+                Parents.Remove(node);
         }
 
         public T Value { get; }
@@ -95,11 +103,6 @@ namespace TreeStructure
         public void AddChild(TreeNode<T> node)
         {
             Children.Add(node);
-        }
-
-        public bool RemoveChild(TreeNode<T> node)
-        {
-            return Children.Remove(node);
         }
 
         public void Traverse(Action<T> action)

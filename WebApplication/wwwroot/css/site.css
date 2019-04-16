@@ -31,12 +31,19 @@ body {
 }
 
 .feat-tree-area {
+    margin-left: 15px;
 }
 
 .feat-tree-block {
     color: black;
     margin-bottom: 5px;
-    width: 25%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.feat-tree-block strong {
+    margin-top: 2px;
+    margin-bottom: auto;
 }
 
 .feat-tree-block:hover {
@@ -50,7 +57,48 @@ body {
 
 .link-img {
     opacity: 0.6;
+}
+
+.link-img img {
+    height: 12px;
+    width: auto;
+}
+
+.feat-open {
+    display: inline-block;
+    margin-right: -10px;
     float: right;
+}
+
+.loader {
+    border: 2px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 2px solid #3498db;
+    width: 16px;
+    height: 16px;
+    -webkit-animation: spin 1s linear infinite; /* Safari */
+    animation: spin 1s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Hide/rearrange for smaller screens */

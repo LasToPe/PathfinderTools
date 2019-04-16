@@ -10,7 +10,7 @@ namespace WebApplication.Models
 {
     public class FeatTreeModel
     {
-        public Tree FeatTree { get; set; } = new Tree();
+        public FeatTree FeatTree { get; set; } = new FeatTree();
         public IEnumerable<Feat> RootFeats { get; set; } = new List<Feat>();
     }
 }
