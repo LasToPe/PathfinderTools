@@ -1,8 +1,19 @@
-﻿function onClick_subtree(id) {
+﻿document.onreadystatechange = function () {
+    if (document.readyState === "complete") {
+        //search enter
+        document.getElementById("treeSearchInput").addEventListener("keypress", function (event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                searchTree();
+            }
+        });
+    }
+};
+
+function onClick_subtree(id) {
     let container = document.getElementById(id).parentElement;
 
     let featName = id.match(/(?!.*\|)(.+)/)[0];
-    console.log(featName);
 
     let element = document.getElementById(id);
     let loader = element.getElementsByClassName("feat-open")[0];
@@ -14,17 +25,40 @@
         data: { parent: featName },
         accepts: "application/json",
         success: function (result) {
-            console.log(result);
-            hideOtherFeats();
             createSubTree(container, id, result);
-            //doneLoading(loader);
             element.removeChild(loader);
         }
     });
 }
 
-function hideOtherFeats() {
+function searchTree() {
+    let searchloader = document.createElement("div");
+    searchloader.classList.add("loader");
+    searchloader.classList.add("search-loader");
+    let searchdiv = document.getElementsByClassName("form-inline")[0];
+    searchdiv.appendChild(searchloader);
 
+    let input = document.getElementById("treeSearchInput").value;
+
+    if (input === "") {
+        $(".hidden").removeClass("hidden");
+        searchdiv.removeChild(searchloader);
+        return;
+    }
+    $.ajax({
+        url: "/FeatTree/TreeSearch",
+        method: "GET",
+        data: { input: input },
+        accepts: "application/json",
+        success: function (result) {
+            $(".feat-tree-block").addClass("hidden");
+            for (i = 0; i < result.length; i++) {
+                let element = document.getElementById(result[i]);
+                element.classList.remove("hidden");
+            }
+            searchdiv.removeChild(searchloader);
+        }
+    });
 }
 
 function load(element) {
@@ -33,15 +67,17 @@ function load(element) {
     element.classList.add("loader");
 }
 
-function doneLoading(element) {
-    element.classList.remove("loader");
-    element.classList.add("glyphicon");
-    element.classList.add("glyphicon-chevron-down");
-}
-
 function createSubTree(container, parentId, children) {
     let sub = document.createElement("div");
     sub.classList.add("col-md-12");
+
+    if (children.length < 1) {
+        sub.style.marginLeft = "15px";
+        let text = document.createTextNode("No feats found");
+        sub.appendChild(text);
+        container.appendChild(sub);
+        return;
+    }
 
     for (i = 0; i < children.length; i++) {
         let child = children[i];
@@ -54,7 +90,6 @@ function createSubTree(container, parentId, children) {
         div.classList.add("col-md-3");
         div.classList.add("feat-tree-block");
         div.id = parentId + "|" + child.name;
-        div.onclick = function () { onClick_subtree(div.id); };
 
         let imageSpan = document.createElement("span");
         imageSpan.classList.add("link-img");
@@ -74,6 +109,7 @@ function createSubTree(container, parentId, children) {
         arrow.classList.add("glyphicon");
         arrow.classList.add("glyphicon-chevron-down");
         arrow.classList.add("feat-open");
+        arrow.onclick = function () { onClick_subtree(div.id); };
 
         div.appendChild(imageSpan);
         div.appendChild(strong);
