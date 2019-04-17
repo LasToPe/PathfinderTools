@@ -1,0 +1,50 @@
+﻿@{ 
+    ViewData["Title"] = "About";
+}
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/githubIssues.css"/>
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="~/css/githubIssues.min.css" asp-append-version="true" />
+</environment>
+
+<div class="body-content">
+    <div class="row">
+        <div class="col-md-12 about-sections">
+            <h2>About</h2>
+            <h4>About this website</h4>
+            <p>
+                This site was created as a personal side project and is run and maintained by me. The focus is to provide tools for the 1st edition Pathfinder RPG.
+            </p>
+            <p>
+                <strong>Development and management</strong> <br />
+                <ul>
+                    <li><a href="https://docs.microsoft.com/en-us/aspnet/index?view=aspnetcore-2.2">ASP.Net Core</a> framework for the development.</li>
+                    <li><a href="https://visualstudio.microsoft.com/">Microsoft Visual Studio</a> (Community) as my IDE of choice. For work I use the Enterprise or Professional version depending on the project and team.</li>
+                    <li><a href="https://github.com">Github</a> for version control and online repository management. <strong><a href="https://github.com/LasToPe/PathfinderTools/">Project link</a></strong></li>
+                </ul>
+                <strong>Pipeline</strong>
+                <ul>
+                    <li><a href="https://github.com/LasToPe/PathfinderTools/issues/4">Readme on Github</a></li>
+                    <li><a href="https://github.com/LasToPe/PathfinderTools/issues/2">Performance Optimization</a></li>
+                    <li><a href="https://github.com/LasToPe/PathfinderTools/issues/6">Non-combat feats in feat tree</a></li>
+                    <li><a href="https://github.com/LasToPe/PathfinderTools/issues/5">Pathfinder Character Sheet</a></li>
+                    <li><a href="https://github.com/LasToPe/PathfinderTools/issues/3">Automatic unfolding in Feat Tree</a></li>
+                </ul>
+                If you experience bugs, please submit an issue with the label <span class="bug">bug</span> on github <a href="https://github.com/LasToPe/PathfinderTools/issues/new" target="_blank">https://github.com/LasToPe/PathfinderTools/issues/new</a> <br />
+                Additionally feel free to add feature requests, also as an issue labeled with <span class="feature-request">feature request</span>
+            </p>
+            <h4>About me</h4>
+            <p>
+                I am software engineer from Denmark with great interest in role playing games. I have been playing Pathfinder for close to six years and I don't intend to stop. I used to play many MMORPG's as well, but they don't interest me much any more. <br />
+                If you need to get in contact with me you can generally do so by sending me an email or a message on LinkedIn. <br />
+                <em>For inquiries regarding this website, I would prefer it to be kept to the Github repository.</em>
+            </p>
+            <div class="about-links-div">
+                <a href="mailto:lassep95@gmail.com" target="_blank"><img src="~/images/mail.png" /></a>
+                <a href="https://github.com/LasToPe/PathfinderTools" target="_blank"><img src="~/images/GitHub.png" /></a>
+                <a href="https://www.linkedin.com/in/lasse-t-pedersen/" target="_blank"><img src="~/images/In.png" /></a>
+            </div>
+        </div>
+    </div>
+</div>

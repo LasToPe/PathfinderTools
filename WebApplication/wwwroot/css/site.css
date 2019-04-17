@@ -11,11 +11,6 @@ body {
     padding: 15px;
 }
 
-/* QR code generator */
-#qrCode {
-    margin: 15px;
-}
-
 .feat-area {
     padding-top: 15px;
 }
@@ -25,8 +20,12 @@ body {
     margin-bottom: 5px;
 }
 
+.feat-block a {
+    color: black;
+}
+
 .feat-block:hover {
-    box-shadow: 10px 5px 5px #7a7a7a;
+    box-shadow: 5px 5px 5px #7a7a7a;
     border: 1px solid #7a7a7a;
 }
 
@@ -90,6 +89,20 @@ body {
     margin-top: 4px;
 }
 
+.about-links-div {
+    display: block;
+}
+
+.about-links-div img {
+    width: 60px;
+    height: auto;
+    margin-right: 2%;
+}
+
+.about-links-div img + img {
+    margin-left: 20%;
+}
+
 /* Safari */
 @-webkit-keyframes spin {
     0% {
@@ -117,8 +130,16 @@ body {
         border: 1px solid #7a7a7a;
     }
 
+    .feat-block:hover {
+        box-shadow: 0 0 0 #7a7a7a;
+    }
+
     .feat-tree-block {
         width: auto;
         border: 1px solid #7a7a7a;
+    }
+
+    .about-links-div img {
+        margin-right: 5%;
     }
 }

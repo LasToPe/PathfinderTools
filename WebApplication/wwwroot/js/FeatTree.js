@@ -73,7 +73,7 @@ function createSubTree(container, parentId, children) {
 
     if (children.length < 1) {
         sub.style.marginLeft = "15px";
-        let text = document.createTextNode("No feats found");
+        let text = document.createTextNode("No feats listing " + parentId + " as a prerequisite found");
         sub.appendChild(text);
         container.appendChild(sub);
         return;
