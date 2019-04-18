@@ -42,7 +42,7 @@ namespace TreeStructure
             foreach (var node in nodes)
             {
                 var removed = new List<TreeNode<Feat>>();
-                foreach(var n in node.Children)
+                foreach (var n in node.Children)
                 {
                     n.TraverseNodes(c => c.RemoveParentFeat(node));
                 }
@@ -58,7 +58,25 @@ namespace TreeStructure
                 }
                 node.Children.RemoveAll(n => toRemove.Contains(n));
             }
+
+            //HandleDirtyFighting();
         }
+
+        //private void HandleDirtyFighting()
+        //{
+        //    var ceNode = nodes.Where(n => n.Value.Name == "Combat Expertise").FirstOrDefault();
+        //    var iusNode = nodes.Where(n => n.Value.Name == "Improved Unarmed Strike").FirstOrDefault();
+        //    var dfNode = nodes.Where(n => n.Value.Name == "Dirty Fighting").FirstOrDefault();
+
+        //    foreach (var node in nodes)
+        //    {
+        //        if (node.Parents.Contains(ceNode) || node.Parents.Contains(iusNode))
+        //        {
+        //            node.Parents.Add(dfNode);
+        //            dfNode.Children.Add(node);
+        //        }
+        //    }
+        //}
 
         public IEnumerable<TreeNode<Feat>> GetTreeNodes() => nodes;
     }
