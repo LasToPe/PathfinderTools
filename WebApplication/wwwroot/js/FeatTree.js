@@ -10,15 +10,12 @@
     }
 };
 
-function onClick_subtree(id) {
-    let featName = id;
-    divid = id.replace(/\'/, "");
+function onClick_subtree(arrowId) {
+    let arrow = $("[id='" + arrowId + "']");
+    let element = arrow.parents(".feat-tree-area").first();
+    let featName = arrow.siblings("strong").first().text();
 
-    let container = $("[id*='" + divid + "']").last(); //document.getElementById(divid);
-
-    let element = container.children().first();
-    let loader = element.find(".feat-open"); //element.getElementsByClassName("feat-open")[0];
-    load(loader);
+    load(arrow);
 
     $.ajax({
         url: "/FeatTree/GetChildren",
@@ -26,8 +23,8 @@ function onClick_subtree(id) {
         data: { parent: featName },
         accepts: "application/json",
         success: function (result) {
-            createSubTree(container[0], divid, featName, result);
-            element.find(".feat-open").remove("*");
+            createSubTree(element, element.id, featName, result);
+            doneLoading(arrow);
         }
     });
 }
@@ -36,6 +33,14 @@ function load(element) {
     element.removeClass("glyphicon");
     element.removeClass("glyphicon-chevron-down");
     element.addClass("loader");
+}
+
+function doneLoading(element) {
+    element.removeClass("loader");
+    //element.addClass("glyphicon");
+    //element.addClass("glyphicon-chevron-up");
+    //element.onclick = new onclick for removing child elements
+    element.remove();
 }
 
 function createSubTree(container, parentId, parentName, children) {
@@ -47,9 +52,9 @@ function createSubTree(container, parentId, parentName, children) {
         let textspan = document.createElement("span");
         textspan.classList.add("feat-tree-text-span");
         let text = document.createTextNode("No feats listing " + parentName + " as a prerequisite found");
-        textspan.appendChild(text);
-        sub.appendChild(textspan);
-        container.appendChild(sub);
+        textspan.append(text);
+        sub.append(textspan);
+        container.append(sub);
         return;
     }
 
@@ -80,10 +85,11 @@ function createSubTree(container, parentId, parentName, children) {
         strong.appendChild(text);
 
         let arrow = document.createElement("span");
+        arrow.id = child.name + "_arrow";
         arrow.classList.add("glyphicon");
         arrow.classList.add("glyphicon-chevron-down");
-        arrow.classList.add("feat-open");
-        arrow.onclick = function () { onClick_subtree(child.name); };
+        arrow.classList.add("feat-arrow");
+        arrow.onclick = function () { onClick_subtree(arrow.id); };
 
         div.appendChild(imageSpan);
         div.appendChild(strong);
@@ -92,7 +98,7 @@ function createSubTree(container, parentId, parentName, children) {
         subRow.appendChild(div);
         sub.appendChild(subRow);
     }
-    container.appendChild(sub);
+    container.append(sub);
 }
 
 function searchTree() {
