@@ -18,11 +18,11 @@
 
 @foreach (var feat in Model.RootFeats)
 {
-    <div class="row feat-tree-area">
-        <div id="@feat.Name" class="col-md-3 feat-tree-block">
+    <div id="@feat.Name.Replace("'", "")" class="row feat-tree-area">
+        <div class="col-md-3 feat-tree-block">
             <span class="link-img"><a href="@feat.Link" target="_blank"><img src="~/images/link.png" /></a></span>
             <strong>@feat.Name</strong>
-            <span class="glyphicon glyphicon-chevron-down feat-open" onclick="onClick_subtree('@feat.Name')"></span>
+            <span class="glyphicon glyphicon-chevron-down feat-open" onclick='onClick_subtree("@feat.Name")'></span>
         </div>
     </div>
 }

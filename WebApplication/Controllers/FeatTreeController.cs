@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using DataTypes;
 using Microsoft.AspNetCore.Mvc;
 using TreeStructure;
 using WebApplication.Models;
@@ -32,7 +33,7 @@ namespace WebApplication.Controllers
         public JsonResult TreeSearch(string input)
         {
             var allResults = featTreeModel.FeatTree.GetTreeNodes().Where(n => n.Value.Name.Contains(input, StringComparison.InvariantCultureIgnoreCase));
-            var results = allResults.Where(n => n.Parents.Count() == 0).Select(f => f.Value.Name);
+            var results = allResults.Select(f => new { f.Value.Name, req = f.Value.Prerequisites.Where(r => r.GetType() == typeof(Feat)).FirstOrDefault() }); // .Where(n => n.Parents.Count() == 0)
 
             return Json(results);
         }

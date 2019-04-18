@@ -11,12 +11,13 @@
 };
 
 function onClick_subtree(id) {
-    let container = document.getElementById(id).parentElement;
+    let featName = id;
+    divid = id.replace(/\'/, "");
 
-    let featName = id.match(/(?!.*\|)(.+)/)[0];
+    let container = $("[id*='" + divid + "']").last(); //document.getElementById(divid);
 
-    let element = document.getElementById(id);
-    let loader = element.getElementsByClassName("feat-open")[0];
+    let element = container.children().first();
+    let loader = element.find(".feat-open"); //element.getElementsByClassName("feat-open")[0];
     load(loader);
 
     $.ajax({
@@ -25,56 +26,29 @@ function onClick_subtree(id) {
         data: { parent: featName },
         accepts: "application/json",
         success: function (result) {
-            createSubTree(container, id, result);
-            element.removeChild(loader);
-        }
-    });
-}
-
-function searchTree() {
-    let searchloader = document.createElement("div");
-    searchloader.classList.add("loader");
-    searchloader.classList.add("search-loader");
-    let searchdiv = document.getElementsByClassName("form-inline")[0];
-    searchdiv.appendChild(searchloader);
-
-    let input = document.getElementById("treeSearchInput").value;
-
-    if (input === "") {
-        $(".hidden").removeClass("hidden");
-        searchdiv.removeChild(searchloader);
-        return;
-    }
-    $.ajax({
-        url: "/FeatTree/TreeSearch",
-        method: "GET",
-        data: { input: input },
-        accepts: "application/json",
-        success: function (result) {
-            $(".feat-tree-block").addClass("hidden");
-            for (i = 0; i < result.length; i++) {
-                let element = document.getElementById(result[i]);
-                element.classList.remove("hidden");
-            }
-            searchdiv.removeChild(searchloader);
+            createSubTree(container[0], divid, featName, result);
+            element.find(".feat-open").remove("*");
         }
     });
 }
 
 function load(element) {
-    element.classList.remove("glyphicon");
-    element.classList.remove("glyphicon-chevron-down");
-    element.classList.add("loader");
+    element.removeClass("glyphicon");
+    element.removeClass("glyphicon-chevron-down");
+    element.addClass("loader");
 }
 
-function createSubTree(container, parentId, children) {
+function createSubTree(container, parentId, parentName, children) {
     let sub = document.createElement("div");
     sub.classList.add("col-md-12");
 
     if (children.length < 1) {
         sub.style.marginLeft = "15px";
-        let text = document.createTextNode("No feats listing " + parentId + " as a prerequisite found");
-        sub.appendChild(text);
+        let textspan = document.createElement("span");
+        textspan.classList.add("feat-tree-text-span");
+        let text = document.createTextNode("No feats listing " + parentName + " as a prerequisite found");
+        textspan.appendChild(text);
+        sub.appendChild(textspan);
         container.appendChild(sub);
         return;
     }
@@ -85,11 +59,11 @@ function createSubTree(container, parentId, children) {
         let subRow = document.createElement("div");
         subRow.classList.add("row");
         subRow.classList.add("feat-tree-area");
+        subRow.id = parentId + "_" + child.name.replace(/\'/, "");
 
         let div = document.createElement("div");
         div.classList.add("col-md-3");
         div.classList.add("feat-tree-block");
-        div.id = parentId + "|" + child.name;
 
         let imageSpan = document.createElement("span");
         imageSpan.classList.add("link-img");
@@ -109,7 +83,7 @@ function createSubTree(container, parentId, children) {
         arrow.classList.add("glyphicon");
         arrow.classList.add("glyphicon-chevron-down");
         arrow.classList.add("feat-open");
-        arrow.onclick = function () { onClick_subtree(div.id); };
+        arrow.onclick = function () { onClick_subtree(child.name); };
 
         div.appendChild(imageSpan);
         div.appendChild(strong);
@@ -119,4 +93,58 @@ function createSubTree(container, parentId, children) {
         sub.appendChild(subRow);
     }
     container.appendChild(sub);
+}
+
+function searchTree() {
+    let searchloader = document.createElement("div");
+    searchloader.classList.add("loader");
+    searchloader.classList.add("search-loader");
+    let searchdiv = document.getElementsByClassName("form-inline")[0];
+    searchdiv.appendChild(searchloader);
+
+    let input = document.getElementById("treeSearchInput").value;
+    
+    if (input === "") {
+        $(".hidden").removeClass("hidden");
+        searchdiv.removeChild(searchloader);
+        return;
+    }
+    $.ajax({
+        url: "/FeatTree/TreeSearch",
+        method: "GET",
+        data: { input: input },
+        accepts: "application/json",
+        success: function (result) {
+            try {
+                $(".feat-tree-area").addClass("hidden");
+                $(".feat-tree-text-span").addClass("hidden");
+                for (i = 0; i < result.length; i++) {
+                    let id = result[i].name.replace(/\'/, "");
+                    // handle first level
+                    let element = $("[id='"+id+"']")[0];
+                    
+                    if (element !== undefined) {
+                        element.classList.remove("hidden");
+                        $("[id='" + element.id + "']").parents().removeClass("hidden");
+                        $("[id='" + element.id + "']").find("*").removeClass("hidden");
+                        continue;
+                    }
+                    // handle based on first prerequisite
+                    let req = result[i].req.name.replace(/\'/, "");
+                    element = $("[id='" + req + "']")[0];
+                    if (element !== undefined) {
+                        element.classList.remove("hidden");
+                        $("[id='" + element.id + "']").parents().removeClass("hidden");
+                        $("[id='" + element.id + "']").find("*").removeClass("hidden");
+                        continue;
+                    }
+                }
+                searchdiv.removeChild(searchloader);
+            }
+            catch (error) {
+                searchdiv.removeChild(searchloader);
+                throw error;
+            }
+        }
+    });
 }
