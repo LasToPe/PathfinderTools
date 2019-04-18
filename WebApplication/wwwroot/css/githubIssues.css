@@ -25,6 +25,10 @@
     color: #008672;
 }
 
+.in-progress {
+    color: #00ff4c;
+}
+
 .invalid {
     color: #e4e669;
 }
