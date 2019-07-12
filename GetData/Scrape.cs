@@ -1,5 +1,6 @@
 ﻿using DataTypes;
 using HtmlAgilityPack;
+using Newtonsoft.Json;
 using ScrapySharp.Extensions;
 using ScrapySharp.Network;
 using System;
@@ -10,7 +11,20 @@ using System.Text.RegularExpressions;
 
 namespace GetData
 {
-    public class Scrape
+    public class ScrapeFunctions
+    {
+        public static void SaveToJson(object o, string path)
+        {
+            var dirPath = @"Scrape";
+            System.IO.Directory.CreateDirectory(dirPath);
+
+            var json = JsonConvert.SerializeObject(o);
+            Console.Write(json);
+            System.IO.File.WriteAllTextAsync(string.Concat(dirPath, path), json);
+        }
+    }
+
+    public class ScrapeFeats
     {
         private static readonly string baseuri = "https://aonprd.com/Feats.aspx?Category=";
 
@@ -55,7 +69,7 @@ namespace GetData
 
         public static IEnumerable<Feat> GetAllFeats()
         {
-            var scrape = new Scrape();
+            var scrape = new ScrapeFeats();
 
             IEnumerable<Feat>[] featsArray = new IEnumerable<Feat>[Links.Count];
             var enumerator = 0;
@@ -84,7 +98,7 @@ namespace GetData
             if (list == null)
                 return GetAllFeats();
 
-            var scrape = new Scrape();
+            var scrape = new ScrapeFeats();
             var feats = scrape.GetFeats(Links.ElementAt((int)list).Value);
             foreach (var feat in feats)
                 feat.SetPrerequisites(feats);
@@ -137,6 +151,46 @@ namespace GetData
             }
 
             return feats;
+        }
+    }
+
+    public class ScrapeSpells
+    {
+        private static readonly Uri allSpellsUrl = new Uri("https://aonprd.com/Spells.aspx?Class=All");
+        private static readonly Uri baseSpellUrl = new Uri("https://aonprd.com/SpellDisplay.aspx?ItemName=");
+
+        public static IEnumerable<Spell> GetSpells()
+        {
+            ScrapingBrowser browser = new ScrapingBrowser
+            {
+                AllowAutoRedirect = true,
+                AllowMetaRedirect = true
+            };
+
+            WebPage page = browser.NavigateToPage(allSpellsUrl);
+            HtmlNode node = page.Html.CssSelect("#ctl00_MainContent_DataListTypes").First();
+
+            var names = new List<string>();
+
+            foreach(var n in node.SelectNodes(@"//a"))
+            {
+                var name = n.InnerText;
+                var url = new Uri(string.Concat(baseSpellUrl, name));
+
+                var spellPage = browser.NavigateToPage(url);
+                var spellNode = spellPage.Html.CssSelect("#ctl00_MainContent_DataListTypes_ctl00_LabelName").First();
+                var text = spellNode.InnerHtml;
+                //Regex find headings: (?<=<b>)(.+?)(?=[\<])
+                //Regex find values: (?<=<\/b>)(.+?)(?=[\<])
+            }
+
+            return null;
+        }
+
+        private School GetSchool(string schoolstring)
+        {
+            Enum.TryParse(schoolstring, out School school);
+            return school;
         }
     }
 }

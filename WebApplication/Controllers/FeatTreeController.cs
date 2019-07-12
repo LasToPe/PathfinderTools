@@ -13,7 +13,7 @@ namespace WebApplication.Controllers
 
         public FeatTreeController()
         {
-            featTreeModel.FeatTree = new FeatTree(GetData.Scrape.GetSpecificFeats(7));
+            featTreeModel.FeatTree = new FeatTree(GetData.ScrapeFeats.GetSpecificFeats(7));
             featTreeModel.RootFeats = featTreeModel.FeatTree.GetTreeNodes().Where(n => n.Parents.Count() == 0).Select(f => f.Value);
         }
 

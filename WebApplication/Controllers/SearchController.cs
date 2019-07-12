@@ -86,12 +86,12 @@ namespace WebApplication.Controllers
             if (Enum.TryParse(typeof(FeatType), list, out var i))
             {
                 var key = (int)i;
-                feats = await Task.Run(() => Scrape.GetSpecificFeats(key).ToList());
+                feats = await Task.Run(() => ScrapeFeats.GetSpecificFeats(key).ToList());
                 UpdateLists(key, feats);
             }
             else
             {
-                feats = await Task.Run(() => Scrape.GetAllFeats().ToList());
+                feats = await Task.Run(() => ScrapeFeats.GetAllFeats().ToList());
                 UpdateLists(-1, feats);
             }
 
