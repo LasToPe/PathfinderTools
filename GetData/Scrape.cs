@@ -5,6 +5,7 @@ using ScrapySharp.Extensions;
 using ScrapySharp.Network;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,12 +16,16 @@ namespace GetData
     {
         public static void SaveToJson(object o, string path)
         {
-            var dirPath = @"Scrape";
+            var dirPath = @"Scrape/";
             System.IO.Directory.CreateDirectory(dirPath);
 
             var json = JsonConvert.SerializeObject(o);
-            Console.Write(json);
-            System.IO.File.WriteAllTextAsync(string.Concat(dirPath, path), json);
+            //Console.Write(json);
+            //System.IO.File.WriteAllTextAsync(string.Concat(dirPath, path), json);
+            using (var sw = new StreamWriter(string.Concat(dirPath, path)))
+            {
+                sw.Write(json);
+            }
         }
     }
 
@@ -69,17 +74,17 @@ namespace GetData
 
         public static IEnumerable<Feat> GetAllFeats()
         {
-            var scrape = new ScrapeFeats();
+            ScrapeFeats scrape = new ScrapeFeats();
 
             IEnumerable<Feat>[] featsArray = new IEnumerable<Feat>[Links.Count];
-            var enumerator = 0;
+            int enumerator = 0;
             foreach (var link in Links.Values)
             {
                 featsArray[enumerator] = scrape.GetFeats(link, (FeatType)enumerator);
                 enumerator++;
             }
 
-            var allFeats = new List<Feat>();
+            List<Feat> allFeats = new List<Feat>();
             foreach (var List in featsArray)
             {
                 allFeats.AddRange(List.Where(fn => allFeats.All(fe => fe.Name != fn.Name)));
@@ -168,22 +173,22 @@ namespace GetData
             };
 
             WebPage page = browser.NavigateToPage(allSpellsUrl);
-            HtmlNode node = page.Html.CssSelect("#ctl00_MainContent_DataListTypes").First();
+            var nodes = page.Html.CssSelect("#ctl00_MainContent_DataListTypes");
 
             var names = new List<string>();
+            var filepath = @"C:\Users\Lasse\Desktop\file.txt";
 
-            foreach(var n in node.SelectNodes(@"//a"))
+            foreach(var node in nodes)
             {
-                var name = n.InnerText;
-                var url = new Uri(string.Concat(baseSpellUrl, name));
-
-                var spellPage = browser.NavigateToPage(url);
-                var spellNode = spellPage.Html.CssSelect("#ctl00_MainContent_DataListTypes_ctl00_LabelName").First();
-                var text = spellNode.InnerHtml;
-                //Regex find headings: (?<=<b>)(.+?)(?=[\<])
-                //Regex find values: (?<=<\/b>)(.+?)(?=[\<])
+                var subnodes = node.CssSelect("a");
+                foreach(var n in subnodes)
+                {
+                    Console.WriteLine(n.InnerText);
+                    names.Add(n.InnerText.Trim());
+                }
             }
-
+            File.Delete(filepath);
+            File.WriteAllLines(filepath, names);
             return null;
         }
 

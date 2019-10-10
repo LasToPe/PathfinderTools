@@ -27,7 +27,7 @@ namespace DataTypes
 
         public void SetPrerequisites(IEnumerable<Feat> feats)
         {
-            string[] delimiters = new string[] { ",", " or " };
+            string[] delimiters = new string[] { "," };
             var splitPrereqs = PrerequisitesString.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
             var trimmedPrereqs = new List<string>();
             foreach (var str in splitPrereqs)
@@ -36,11 +36,11 @@ namespace DataTypes
             var List = feats.ToList();
             foreach (var prereq in trimmedPrereqs)
             {
-                if (List.Exists(f => f.Name == prereq))
-                {
-                    Prerequisites.Add(List.Where(f => f.Name == prereq).FirstOrDefault());
-                    continue;
-                }
+                //if (List.Exists(f => f.Name == prereq))
+                //{
+                //    Prerequisites.Add(List.Where(f => f.Name == prereq).FirstOrDefault());
+                //    continue;
+                //}
                 Prerequisites.Add(prereq);
             }
 

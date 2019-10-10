@@ -25,7 +25,7 @@ namespace TreeStructure
             foreach (var node in nodes)
             {
                 var feat = node.Value;
-                var reqsNodes = nodes.Where(n => feat.Prerequisites.Contains(n.Value));
+                var reqsNodes = nodes.Where(n => feat.Prerequisites.Contains(n.Value.Name));
 
                 foreach (var req in reqsNodes)
                     req.AddChild(node);

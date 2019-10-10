@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTypes", "DataTypes\Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetData", "GetData\GetData.csproj", "{34BA0682-9C17-4578-9487-8BE63326A2C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeStructure", "TreeStructure\TreeStructure.csproj", "{76D41DB1-5430-4F68-B252-8583D5435976}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TreeStructure", "TreeStructure\TreeStructure.csproj", "{76D41DB1-5430-4F68-B252-8583D5435976}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

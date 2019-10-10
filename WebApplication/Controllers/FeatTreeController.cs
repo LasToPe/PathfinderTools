@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using DataTypes;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using TreeStructure;
 using WebApplication.Models;
 
@@ -13,7 +16,14 @@ namespace WebApplication.Controllers
 
         public FeatTreeController()
         {
-            featTreeModel.FeatTree = new FeatTree(GetData.ScrapeFeats.GetSpecificFeats(7));
+            //featTreeModel.FeatTree = new FeatTree(GetData.ScrapeFeats.GetSpecificFeats(7));
+            IEnumerable<Feat> data;
+            using (var sr = new StreamReader("wwwroot/data/CombatFeats.json"))
+            {
+                var json = sr.ReadToEnd();
+                data = JsonConvert.DeserializeObject<IEnumerable<Feat>>(json);
+            }
+            featTreeModel.FeatTree = new FeatTree(data);
             featTreeModel.RootFeats = featTreeModel.FeatTree.GetTreeNodes().Where(n => n.Parents.Count() == 0).Select(f => f.Value);
         }
 

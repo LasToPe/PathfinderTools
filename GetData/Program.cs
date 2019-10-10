@@ -16,8 +16,17 @@ namespace WebScrapeTest
     {
         static void Main(string[] args)
         {
-            GetData.ScrapeSpells.GetSpells();
-            Console.ReadLine();
+            //var data = GetData.ScrapeFeats.GetAllFeats();
+            var data = GetData.ScrapeFeats.GetSpecificFeats(7);
+            GetData.ScrapeFunctions.SaveToJson(data, "CombatFeats.json");
+            //Console.ReadLine();
+
+            //var read = "";
+            //using (var sr = new StreamReader("Scrape/Feats.json"))
+            //{
+            //    read = sr.ReadToEnd();
+            //}
+            //var asFeatList = JsonConvert.DeserializeObject<IEnumerable<Feat>>(read);
         }
     }
 }
