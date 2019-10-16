@@ -1,0 +1,30 @@
+﻿input {
+    width: 100%;
+}
+
+    input[type=number] {
+        text-align: center;
+    }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+
+#ability-scores td {
+    min-width: 100px;
+}
+
+#ability-scores-modal table {
+    width: 100%;
+}
+
+#ability-scores-modal td {
+    width: 5%;
+}
+
+/*#ability-scores-modal input[type=number] {
+    text-align: center;
+}*/

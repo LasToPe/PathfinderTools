@@ -1,0 +1,139 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/CharacterSheet.css" />
+    <script src="~/js/CharacterSheet.js"></script>
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="~/css/CharacterSheet.min.css" />
+</environment>
+
+<div id="info-section" class="row">
+    <div class="col-md-5">
+        <div>
+            <label>Character Name</label>
+            <input class="form-control" type="text" id="character-name" />
+        </div>
+        <div>
+            <label>Player Name</label>
+            <input class="form-control" type="text" id="player-name" />
+        </div>
+        <div>
+            <label>Experience Points</label>
+            <input class="form-control" type="number" id="xp" />
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div>
+            <label>Ancestry &amp; Heritage</label>
+            <input class="form-control" id="ancestry-and-heritage" type="text" />
+        </div>
+        <div>
+            <label>Background</label>
+            <input class="form-control" type="text" id="background" />
+        </div>
+        <div>
+            <label>Class</label>
+            <input class="form-control" type="text" id="class" />
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div>
+            <label>Level</label>
+            <input class="form-control" type="number" id="level" />
+        </div>
+        <div>
+            <label>Hero Points</label>
+            <input class="form-control" type="number" id="hero-points" />
+        </div>
+    </div>
+</div>
+<div id="ability-scores-and-saves" class="row">
+    <div class="col-md-4">
+        <table id="ability-scores">
+            <tr>
+                <td></td>
+                <td><label>Score</label></td>
+                <td><label>Modifier</label></td>
+            </tr>
+            <tr>
+                <td><label>Strength</label></td>
+                <td><input class="form-control" type="button" id="strength-score" value="10" data-toggle="modal" data-target="#ability-score-modal" /></td>
+                <td><input class="form-control" type="button" id="strength-modifier" value="0" data-toggle="modal" data-target="#ability-score-modal" /></td>
+            </tr>
+            <tr>
+                <td><label>Dexterity</label></td>
+                <td><input class="form-control" type="button" id="dexterity-score" value="10" data-toggle="modal" data-target="#ability-score-modal" /></td>
+                <td><input class="form-control" type="button" id="dexterity-modifier" value="0" data-toggle="modal" data-target="#ability-score-modal" /></td>
+            </tr>
+            <tr>
+                <td><label>Constitution</label></td>
+                <td><input class="form-control" type="button" id="constitution-score" value="10" data-toggle="modal" data-target="#ability-score-modal" /></td>
+                <td><input class="form-control" type="button" id="constitution-modifier" value="0" data-toggle="modal" data-target="#ability-score-modal" /></td>
+            </tr>
+            <tr>
+                <td><label>Intelligence</label></td>
+                <td><input class="form-control" type="button" id="intelligence-score" value="10" data-toggle="modal" data-target="#ability-score-modal" /></td>
+                <td><input class="form-control" type="button" id="intelligence-modifier" value="0" data-toggle="modal" data-target="#ability-score-modal" /></td>
+            </tr>
+            <tr>
+                <td><label>Wisdom</label></td>
+                <td><input class="form-control" type="button" id="wisdom-score" value="10" data-toggle="modal" data-target="#ability-score-modal" /></td>
+                <td><input class="form-control" type="button" id="wisdom-modifier" value="0" data-toggle="modal" data-target="#ability-score-modal" /></td>
+            </tr>
+            <tr>
+                <td><label>Charisma</label></td>
+                <td><input class="form-control" type="button" id="charisma-score" value="10" data-toggle="modal" data-target="#ability-score-modal" /></td>
+                <td><input class="form-control" type="button" id="charisma-modifier" value="0" data-toggle="modal" data-target="#ability-score-modal" /></td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <h4 style="font-weight:600;">Hit Points</h4>
+            <table>
+                <tr>
+                    <td><label>Max</label></td>
+                    <td><label>Current</label></td>
+                    <td><label>Temp</label></td>
+                    <td><label>Dying</label></td>
+                    <td><label>Wounded</label></td>
+                </tr>
+                <tr>
+                    <td><input class="form-control" type="number" id="max-hp" style="height:50px;width:50px;border-radius:50%;" /></td>
+                    <td><input class="form-control" type="number" id="current-hp" /></td>
+                    <td><input class="form-control" type="number" id="temp-hp" /></td>
+                    <td><input class="form-control" type="number" id="dying-hp" /></td>
+                    <td><input class="form-control" type="number" id="wounded-hp" /></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h4 style="font-weight:600;">Armor Class</h4>
+            <table>
+                <tr>
+                    <td><label>AC</label></td>
+                    <td></td>
+                    <td><label>Dex</label></td>
+                    <td><label><small>or</small></label></td>
+                    <td><label>Cap</label></td>
+                    <td><label>Prof</label></td>
+                    <td><label>Training</label></td>
+                    <td><label>Item</label></td>
+                </tr>
+                <tr>
+                    <td><input class="form-control" type="number" contenteditable="false" id="ac" /></td>
+                    <td><small>= 10 +</small></td>
+                    <td><input class="form-control" type="number" id="ac-dex" /></td>
+                    <td><label><small>or</small></label></td>
+                    <td><input class="form-control" type="number" id="ac-dex-cap" /></td>
+                    <td><input class="form-control" type="number" id="ac-prof" /></td>
+                    <td><select class="form-control" id="ac-training" onchange="updateProficiency('ac-prof', 'ac-training')" /></td>
+                    <td><input class="form-control" type="number" id="ac-item" /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<partial name="AbilityScoreModal" />
