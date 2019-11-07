@@ -1,0 +1,184 @@
+﻿@model WebApplication.Models.BackgroundModel
+@{
+    ViewData["Title"] = "Background Creator";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>Homeland, Family and Childhood</h3>
+        <label>Select race and homeland</label>
+        <select id="race" class="form-control" onchange="raceChange(event)">
+            <option>Select Race</option>
+            <option>Dwarf</option>
+            <option>Elf</option>
+            <option>Gnome</option>
+            <option>Half-elf</option>
+            <option>Half-orc</option>
+            <option>Halfling</option>
+            <option>Human</option>
+        </select>
+        <select id="homeland" class="form-control hidden"></select>
+        @Html.DropDownList("unusual", new SelectList(Model.Homeland.UnusualHomeland().Select(n => n.Name)), new { @class = "form-control hidden" })
+        <label>Parents</label>
+        @Html.DropDownList("parents", new SelectList(Model.Parents.Select(n => n.Name)), new { @class = "form-control" })
+        <label>Siblings</label>
+        <select id="siblings" class="form-control"></select>
+        <label>Circumstance of birth</label>
+        @Html.DropDownList("circumstanceOfBirth", new SelectList(Model.CircumstancesOfBirth.Select(n => n.Name)), new { @class = "form-control" })
+        @Html.DropDownList("nobility", new SelectList(Model.Nobilities.Select(n => n.Name)), new { @class = "form-control hidden"})
+        <label>Major childhood event</label>
+        @Html.DropDownList("majorChildhoodEvent", new SelectList(Model.MajorChildhoodEvents.Select(n => n.Name)), new { @class = "form-control" })
+        <h3>Adolescence and Training</h3>
+        <select id="class" class="form-control" onchange="classChange(event)">
+            <option>Select class</option>
+            <option>Alchemist</option>
+            <option>Barbarian</option>
+            <option>Bard</option>
+            <option>Cavalier</option>
+            <option>Cleric</option>
+            <option>Druid</option>
+            <option>Fighter</option>
+            <option>Gunslinger</option>
+            <option>Inquisitor</option>
+            <option>Magus</option>
+            <option>Monk</option>
+            <option>Oracle</option>
+            <option>Paladin</option>
+            <option>Ranger</option>
+            <option>Rogue</option>
+            <option>Sorcerer</option>
+            <option>Summoner</option>
+            <option>Witch</option>
+            <option>Wizard</option>
+        </select>
+        <select id="training" class="form-control"></select>
+        <label>Influential Associate</label>
+        @Html.DropDownList("influencialAssociate", new SelectList(Model.InfluentialAssociates.Select(n => n.Name)), new { @class = "form-control" })
+        <h3>Moral conflict</h3>
+        <label>Conflict</label>
+        @Html.DropDownList("conflict", new SelectList(Model.Conflicts.Select(n => n.Name)), new { @class = "form-control" })
+        <label>Conflict subject</label>
+        @Html.DropDownList("conflictSubject", new SelectList(Model.ConflictSubjects.Select(n => n.Name)), new { @class = "form-control" })
+        <label>Conflict motivation</label>
+        @Html.DropDownList("conflictMotivation", new SelectList(Model.ConflictMotivations.Select(n => n.Name)), new { @class = "form-control" })
+        <label>Conflict resolution</label>
+        @Html.DropDownList("conflictResolution", new SelectList(Model.ConflictResolutions.Select(n => n.Name)), new { @class = "form-control" })
+        <h3>Relationships</h3>
+        <label>Romantic relationships</label>
+        @Html.DropDownList("romanticRelationships", new SelectList(Model.RomanticRelationships.Select(n => n.Name)), new { @class = "form-control" })
+        <label>Relationship with fellow adventurers</label>
+        @Html.DropDownList("relationshipWithFellowAdventurers", new SelectList(Model.RelationshipsWithFellowAdventurers.Select(n => n.Name)), new { @class = "form-control" })
+        <br />
+        <button class="btn btn-default" onclick="getBackstory()">Generate</button>
+    </div>
+    <div class="col-md-5" id="story-div"></div>
+</div>
+
+<script type="text/javascript">
+    function raceChange(event) {
+        $.ajax({
+            url: "BackgroundCreator/GetHomelandOptions?race=" + event.target.value,
+            success: function (data) {
+                $('#homeland').empty();
+                data.forEach(element => {
+                    $('#homeland').append(
+                        $('<option />').text(element).val(element)
+                    );
+                });
+                $('#homeland').removeClass('hidden');
+            }
+        });
+        $.ajax({
+            url: "BackgroundCreator/GetSiblingsOptions?race=" + event.target.value,
+            success: function (data) {
+                $('#siblings').empty();
+                data.forEach(element => {
+                    $('#siblings').append(
+                        $('<option />').text(element).val(element)
+                    );
+                })
+            }
+        });
+    }
+
+    function classChange(event) {
+        $.ajax({
+            url: "BackgroundCreator/GetClassBackgrounds?characterClass=" + event.target.value,
+            success: function (data) {
+                $('#training').empty();
+                data.forEach(element => {
+                    $('#training').append(
+                        $('<option />').text(element).val(element)
+                    );
+                });
+            }
+        });
+    }
+
+    function getBackstory() {
+        var homeland = $('#homeland').val();
+        if (homeland == "Unusual Homeland") { homeland = $('#unusual').val(); }
+        var parents = $('#parents').val();
+        var siblings = $('#siblings').val();
+        var circumstanceOfBirth = $('#circumstanceOfBirth').val();
+        var nobility = null;
+        if (circumstanceOfBirth == "Noble Birth") { nobility = $('#nobility').val(); }
+        var majorChildhoodEvent = $('#majorChildhoodEvent').val();
+        var training = $('#training').val();
+        var influencialAssociate = $('#influencialAssociate').val();
+        var conflict = $('#conflict').val();
+        var conflictSubject = $('#conflictSubject').val();
+        var conflictMotivation = $('#conflictMotivation').val();
+        var conflictResolution = $('#conflictResolution').val();
+        var romanticRelationships = $('#romanticRelationships').val();
+        var relationshipWithFellowAdventurers = $('#relationshipWithFellowAdventurers').val();
+
+        $.ajax({
+            url: "BackgroundCreator/GetBackstory",
+            data: {
+                "homeland": homeland,
+                "parents": parents,
+                "siblings": siblings,
+                "circumstanceOfBirth": circumstanceOfBirth,
+                "nobility": nobility,
+                "majorChildhoodEvent": majorChildhoodEvent,
+                "training": training,
+                "influencialAssociate": influencialAssociate,
+                "conflict": conflict,
+                "conflictSubject": conflictSubject,
+                "conflictMotivation": conflictMotivation,
+                "conflictResolution": conflictResolution,
+                "romanticRelationships": romanticRelationships,
+                "relationshipWithFellowAdventurers": relationshipWithFellowAdventurers
+            },
+            success: function (data) {
+                $('#story-div').empty();
+                $('#story-div').append($('<h3 />').text("Backstory draft:"))
+                data.forEach(element => {
+                    $('#story-div').append(
+                        $('<p />').text(element)
+                    );
+                })
+            },
+            error: function () {
+                alert("Some required information was not fulfilled, please check the form again.");
+            }
+        })
+    }
+
+    $('#homeland').on('change', function (event) {
+        if (event.target.value == "Unusual Homeland") {
+            $('#unusual').removeClass('hidden');
+        } else {
+            $('#unusual').addClass('hidden');
+        }
+    });
+
+    $('#circumstanceOfBirth').on('change', function (event) {
+        if (event.target.value == "Noble Birth") {
+            $('#nobility').removeClass('hidden');
+        } else {
+            $('#nobility').addClass('hidden');
+        }
+    });
+</script>

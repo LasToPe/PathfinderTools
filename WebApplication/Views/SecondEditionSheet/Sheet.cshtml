@@ -49,7 +49,7 @@
         </div>
     </div>
 </div>
-<div id="ability-scores-and-saves" class="row">
+<div class="row">
     <div class="col-md-4">
         <table id="ability-scores">
             <tr>
@@ -109,31 +109,43 @@
                 </tr>
             </table>
         </div>
-        <div>
+        <div id="ac-div">
             <h4 style="font-weight:600;">Armor Class</h4>
-            <table>
-                <tr>
-                    <td><label>AC</label></td>
-                    <td></td>
-                    <td><label>Dex</label></td>
-                    <td><label><small>or</small></label></td>
-                    <td><label>Cap</label></td>
-                    <td><label>Prof</label></td>
-                    <td><label>Training</label></td>
-                    <td><label>Item</label></td>
-                </tr>
-                <tr>
-                    <td><input class="form-control" type="number" contenteditable="false" id="ac" /></td>
-                    <td><small>= 10 +</small></td>
-                    <td><input class="form-control" type="number" id="ac-dex" /></td>
-                    <td><label><small>or</small></label></td>
-                    <td><input class="form-control" type="number" id="ac-dex-cap" /></td>
-                    <td><input class="form-control" type="number" id="ac-prof" /></td>
-                    <td><select class="form-control" id="ac-training" onchange="updateProficiency('ac-prof', 'ac-training')" /></td>
-                    <td><input class="form-control" type="number" id="ac-item" /></td>
-                </tr>
-            </table>
+            <div class="row">
+                <div class="col-md-12">
+                    <table>
+                        <tr>
+                            <th><label>AC</label></th>
+                            <th></th>
+                            <th><label>Dex</label></th>
+                            <th><label><small>or</small></label></th>
+                            <th><label>Cap</label></th>
+                            <th><label>Item</label></th>
+                        </tr>
+                        <tr>
+                            <td><input class="form-control" type="number" contenteditable="false" id="ac" /></td>
+                            <td><small>=10+</small></td>
+                            <td><input class="form-control" type="number" id="ac-dex" /></td>
+                            <td><label><small>or</small></label></td>
+                            <td><input class="form-control" type="number" id="ac-dex-cap" /></td>
+                            <td><input class="form-control" type="number" id="ac-item" /></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table>
+                        <tr>
+                            <th><label>Proficiency</label></th>
+                            <td style="width: 35%"><input class="form-control" type="number" id="ac-prof" /></td>
+                            <td><select class="form-control" id="ac-training"></select></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 <partial name="AbilityScoreModal" />

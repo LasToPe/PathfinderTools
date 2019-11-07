@@ -9,12 +9,19 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <script src="~/lib/jquery/dist/jquery.js"></script>
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
     </environment>
 </head>
 <body>
@@ -34,6 +41,7 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Search" asp-action="Index">Feat Search</a></li>
                     <li><a asp-area="" asp-controller="FeatTree" asp-action="Index">Feat Tree</a></li>
+                    <li><a asp-area="" asp-controller="BackgroundCreator" asp-action="Index">Background Creator</a></li>
                     @*<li><a asp-area="" asp-controller="SecondEditionSheet" asp-action="Index">2e Character Sheet</a></li>*@
                     <li><a asp-area="" asp-controller="About" asp-action="Index">About</a></li>
                 </ul>

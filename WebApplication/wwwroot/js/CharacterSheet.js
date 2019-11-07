@@ -29,24 +29,6 @@ function setupTrainingDropdowns() {
     }
 }
 
-function updateProficiency(target, trigger) {
-    var field = $('#' + target);
-    var training = $('#' + trigger);
-    var level = $('#level').val();
-    level = parseInt(level);
-    if (training.val() == 'Untrained') {
-        field.val(0);
-    } else if (training.val() == 'Trained') {
-        field.val(2 + level);
-    } else if (training.val() == 'Expert') {
-        field.val(4 + level);
-    } else if (training.val() == 'Master') {
-        field.val(6 + level);
-    } else if (training.val() == 'Legendary') {
-        field.val(8 + level);
-    }
-}
-
 function abilityScoreSave() {
     var str = $('input[id^="strength"]');
     var dex = $('input[id^="dexterity"]');

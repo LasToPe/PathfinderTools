@@ -25,6 +25,10 @@
     width: 5%;
 }
 
+#ac-div th {
+    text-align: center;
+}
+
 /*#ability-scores-modal input[type=number] {
     text-align: center;
 }*/
