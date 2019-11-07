@@ -9,6 +9,7 @@ COPY ["WebApplication/WebApplication.csproj", "WebApplication/"]
 COPY ["GetData/GetData.csproj", "GetData/"]
 COPY ["DataTypes/DataTypes.csproj", "DataTypes/"]
 COPY ["TreeStructure/TreeStructure.csproj", "TreeStructure/"]
+COPY ["BackgroundLib/BackgroundLib.csproj", "BackgroundLib"]
 RUN dotnet restore "WebApplication/WebApplication.csproj"
 COPY . .
 WORKDIR "/src/WebApplication"
