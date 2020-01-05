@@ -43,7 +43,7 @@ namespace WebApplication.Controllers
         public JsonResult TreeSearch(string input)
         {
             var allResults = featTreeModel.FeatTree.GetTreeNodes().Where(n => n.Value.Name.Contains(input, StringComparison.InvariantCultureIgnoreCase));
-            var results = allResults.Select(f => new { f.Value.Name, req = f.Value.Prerequisites.Where(r => r.GetType() == typeof(Feat)).FirstOrDefault() }); // .Where(n => n.Parents.Count() == 0)
+            var results = allResults.Select(f => new { f.Value.Name, req = f.Parents.Count() != 0 ? f.Parents.FirstOrDefault().Value : null }); // .Where(n => n.Parents.Count() == 0)
 
             return Json(results);
         }
